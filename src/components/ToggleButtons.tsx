@@ -1,13 +1,15 @@
 import React from 'react';
 import styled from 'styled-components';
 
+// Props interface for the ToggleButtons component
 interface ToggleButtonsProps {
-  options: string[];
-  selected: string;
-  onSelect: (option: string) => void;
-  className?: string;
+  options: string[]; // Array of options to display as buttons
+  selected: string; // The currently selected option
+  onSelect: (option: string) => void; // Function to call when an option is selected
+  className?: string; // Optional className for additional styling
 }
 
+// Styled button component with dynamic styling based on the 'selected' prop
 const Button = styled.button<{ selected: boolean }>`
   background-color: ${props => (props.selected ? '#007bff' : '#f8f9fa')};
   border: 1px solid #007bff;
@@ -49,6 +51,7 @@ const Button = styled.button<{ selected: boolean }>`
   }
 `;
 
+// Wrapper component for the buttons, using flexbox for layout
 const ButtonWrapper = styled.div`
   display: flex;
   flex-wrap: wrap;
@@ -56,6 +59,7 @@ const ButtonWrapper = styled.div`
   margin-bottom: 20px;
 `;
 
+// Functional component for the toggle buttons
 const ToggleButtons: React.FC<ToggleButtonsProps> = ({ options, selected, onSelect, className }) => {
   return (
     <ButtonWrapper className={className}>
@@ -73,4 +77,4 @@ const ToggleButtons: React.FC<ToggleButtonsProps> = ({ options, selected, onSele
   );
 };
 
-export default React.memo(ToggleButtons);
+export default React.memo(ToggleButtons); // Memoize the component to prevent unnecessary re-renders

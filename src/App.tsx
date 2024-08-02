@@ -1,4 +1,3 @@
-// src/App.tsx
 import React, { useCallback, useEffect, useMemo, useState } from 'react';
 import { fetchData } from './services/api';
 import DataGrid from './components/DataGrid';
@@ -6,6 +5,7 @@ import ToggleButtons from './components/ToggleButtons';
 import styled from 'styled-components';
 import './App.css';
 
+// Styled component for the main application wrapper
 const AppWrapper = styled.div`
   padding: 20px;
   max-width: 1200px;
@@ -21,15 +21,18 @@ const AppWrapper = styled.div`
 `;
 
 const App: React.FC = () => {
+  // State variables for data, loading, error, selected dataset, column definitions, and search term
   const [data, setData] = useState<any[]>([]);
   const [loading, setLoading] = useState<boolean>(false);
   const [error, setError] = useState<string | null>(null);
   const [selectedDataset, setSelectedDataset] = useState<string>('Posts');
   const [columnDefs, setColumnDefs] = useState<any[]>([]);
   const [searchTerm, setSearchTerm] = useState<string>('');
-
+  
+  // List of available datasets
   const datasets = ['Posts', 'Comments', 'Albums', 'Photos', 'Users'];
 
+  // Fetch data from the API whenever the selected dataset changes
   useEffect(() => {
     const fetchDataAsync = async () => {
       setLoading(true);
@@ -38,7 +41,7 @@ const App: React.FC = () => {
       try {
         const response = await fetchData(selectedDataset);
         setData(response.data);
-
+        // Generate column definitions from the fetched data
         if (response.data.length > 0) {
           const columns = Object.keys(response.data[0]).map(key => ({
             headerName: key.charAt(0).toUpperCase() + key.slice(1),
@@ -56,10 +59,12 @@ const App: React.FC = () => {
     fetchDataAsync();
   }, [selectedDataset]);
   
+  // Handler to change the selected dataset
   const handleSelectDataset = useCallback((dataset: string) => {
     setSelectedDataset(dataset);
   }, []);
   
+  // Filter data based on the search term
   const filteredData = useMemo(() => 
     data.filter(item =>
       Object.values(item).some(val => 
